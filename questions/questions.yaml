@@ -1,0 +1,160 @@
+
+- id: q01
+  question: "What is the scaled dot-product attention formula in the Transformer, and why are the query-key dot products divided by sqrt(d_k)?"
+  type: single
+  answerable: true
+  gold_answer: "Attention(Q, K, V) = softmax(QK^T / sqrt(d_k))V. Scaling prevents dot products from becoming too large as d_k increases, which would push softmax into saturated regions with extremely small gradients."
+  gold_location: {paper: attention_v7, page: 4}
+  must_contain: ["softmax", "sqrt(d_k)", "small gradients"]
+
+- id: q02
+  question: "How does multi-head attention work in the Transformer? Explain the role of multiple heads, projections, concatenation, and the output projection."
+  type: single
+  answerable: true
+  gold_answer: "Queries, keys, and values are projected using separate learned linear transformations for each head. Attention is computed independently and in parallel across heads. Their outputs are concatenated and passed through a final learned linear projection. The original Transformer uses 8 heads, with d_k = d_v = 64."
+  gold_location: {paper: attention_v7, page: 4}
+  must_contain: ["parallel", "concatenated", "linear projection", "8 heads"]
+
+- id: q03
+  question: "Why does the Transformer apply masking in decoder self-attention, and how is this masking implemented?"
+  type: single
+  answerable: true
+  gold_answer: "Masking preserves the autoregressive property by preventing a decoder position from accessing future positions. Illegal connections are masked by setting their attention scores to negative infinity before applying softmax."
+  gold_location: {paper: attention_v7, page: 5}
+  must_contain: ["autoregressive", "negative infinity", "softmax"]
+
+- id: q04
+  question: "Describe the position-wise feed-forward network used in each Transformer encoder and decoder layer. Include its activation function and hidden dimensions."
+  type: single
+  answerable: true
+  gold_answer: "The feed-forward network consists of two linear transformations with a ReLU activation between them. It is applied independently and identically at every sequence position. The input and output dimension is d_model = 512 and the inner dimension is d_ff = 2048."
+  gold_location: {paper: attention_v7, page: 5}
+  must_contain: ["two linear transformations", "ReLU", "512", "2048"]
+
+- id: q05
+  question: "Why does the Transformer require positional encoding, and what sinusoidal functions are used to represent token positions?"
+  type: single
+  answerable: true
+  gold_answer: "Since the Transformer does not use recurrence or convolution, positional information must be added to token embeddings to represent sequence order. The model uses sine functions for even dimensions and cosine functions for odd dimensions, with different frequencies. The encodings have the same dimension as the embeddings and can be added to them."
+  gold_location: {paper: attention_v7, page: 6}
+  must_contain: ["positional information", "sine", "cosine", "embeddings"]
+
+- id: q06
+  question: "What are the three major limitations of conventional pipeline-based spoken dialogue systems that Moshi attempts to address?"
+  type: single
+  answerable: true
+  gold_answer: "Conventional systems suffer from high accumulated latency, loss of non-linguistic information because text is used as an intermediate representation, and turn-based processing that cannot naturally handle overlapping speech, interruptions, and backchanneling."
+  gold_location: {paper: moshi_v1, page: 2}
+  must_contain: ["latency", "non-linguistic information", "overlapping speech"]
+
+- id: q07
+  question: "What is Helium in the Moshi architecture, and what are its model size and pretraining scale?"
+  type: single
+  answerable: true
+  gold_answer: "Helium is the text language model backbone of Moshi. It is a 7-billion-parameter model pretrained on 2.1 trillion tokens of public English data."
+  gold_location: {paper: moshi_v1, page: 3}
+  must_contain: ["Helium", "7-billion", "2.1 trillion", "English data"]
+
+- id: q08
+  question: "What is Mimi's split residual vector quantization (RVQ) architecture, and why did the authors introduce it?"
+  type: single
+  answerable: true
+  gold_answer: "Mimi uses a plain vector quantizer (VQ) to represent semantic information and a separate 7-level residual vector quantizer (RVQ) to represent acoustic information. Their outputs are summed. This avoids forcing the semantic quantizer's residual to preserve all acoustic information, improving the semantic-acoustic trade-off."
+  gold_location: {paper: moshi_v1, page: 12}
+  must_contain: ["plain VQ", "7 levels", "acoustic", "semantic"]
+
+- id: q09
+  question: "Explain the roles of the Temporal Transformer and Depth Transformer in Moshi's RQ-Transformer architecture."
+  type: single
+  answerable: true
+  gold_answer: "The Temporal Transformer processes the sequence across time and produces a temporal context vector using previous time steps. The smaller Depth Transformer predicts the remaining sub-sequences at the current time step, conditioned on the temporal context and previously predicted sub-sequences at that time step."
+  gold_location: {paper: moshi_v1, page: 13}
+  must_contain: ["Temporal Transformer", "Depth Transformer", "temporal context", "sub-sequences"]
+
+- id: q10
+  question: "What are the four training phases used to train Moshi? Explain the purpose or data used in each phase."
+  type: table
+  answerable: true
+  gold_answer: "1. Pretraining on unsupervised data, with the Temporal Transformer initialized from Helium. 2. Post-training using simulated multi-stream data based on diarization. 3. Fine-tuning on the Fisher dataset to acquire full-duplex capabilities. 4. Instruction fine-tuning on a custom dataset constructed from synthetic interaction scripts."
+  gold_location: {paper: moshi_v1, page: 8}
+  must_contain: ["unsupervised", "diarization", "Fisher", "synthetic interaction scripts"]
+
+- id: q11
+  question: "Describe the overall architecture of H-Net. What are its three primary components, and how does information flow through them?"
+  type: single
+  answerable: true
+  gold_answer: "H-Net consists of encoder networks, a main network, and decoder networks. The encoders progressively compress input sequences using dynamic chunking. The main network processes the resulting shorter sequence with richer representations. The decoders decompress the sequence back to its original resolution while combining coarse-grained information with fine-grained encoder residuals."
+  gold_location: {paper: dynchunk_v2, page: 4}
+  must_contain: ["encoder", "main network", "decoder", "dynamic chunking"]
+
+- id: q12
+  question: "How does H-Net determine dynamic chunk boundaries using its routing module? Explain the similarity calculation and the boundary decision."
+  type: single
+  answerable: true
+  gold_answer: "The routing module projects consecutive encoder outputs into query and key vectors and calculates their cosine similarity. It converts one minus this similarity into a boundary probability. A boundary is selected when the probability is at least 0.5. The downsampler retains vectors marked as boundaries and discards the others."
+  gold_location: {paper: dynchunk_v2, page: 6}
+  must_contain: ["cosine similarity", "boundary probability", "0.5", "downsampler"]
+
+- id: q13
+  question: "What is the purpose of the smoothing module in H-Net's dechunking layer, and how does it help with differentiable training?"
+  type: single
+  answerable: true
+  gold_answer: "The smoothing module uses an exponential moving average to interpolate between chunks according to their boundary confidence. It converts discrete chunking operations into smoother, differentiable computations, allowing gradients to flow through boundary decisions. It also provides adaptive error correction and improves training stability."
+  gold_location: {paper: dynchunk_v2, page: 7}
+  must_contain: ["exponential moving average", "gradients", "adaptive error correction", "training stability"]
+
+- id: q14
+  question: "Why does H-Net concentrate most of its model capacity in the main network rather than distributing it uniformly across all layers?"
+  type: single
+  answerable: true
+  gold_answer: "The main network operates on progressively compressed sequences, which are much shorter than the original input. This allows more parameters and computational resources per chunk within the same compute budget. Higher-level compressed representations also benefit from increased processing capacity."
+  gold_location: {paper: dynchunk_v2, page: 5}
+  must_contain: ["compressed sequences", "model capacity", "compute per chunk"]
+
+- id: q15
+  question: "According to Table 4, what validation bits-per-byte scores do Transformer, H-Net (space), and H-Net (2-stage) achieve on Chinese and code modeling?"
+  type: table
+  answerable: true
+  gold_answer: "Chinese validation BPB: Transformer = 0.7404, H-Net (space) = 0.7478, H-Net (2-stage) = 0.7032. Chinese XWinograd accuracy: 0.599, 0.629, and 0.663 respectively. Code validation BPB: Transformer = 0.3376, H-Net (space) = 0.3163, H-Net (2-stage) = 0.3161."
+  gold_location: {paper: dynchunk_v2, page: 17}
+  must_contain: ["0.7404", "0.7478", "0.7032", "0.3376", "0.3161"]
+
+- id: q16
+  question: "What data-efficiency improvement does H-Net achieve on DNA language modeling compared with isotropic models?"
+  type: single
+  answerable: true
+  gold_answer: "H-Net achieves approximately 3.6 times greater data efficiency on DNA modeling. It reaches similar perplexity to the corresponding isotropic models using approximately 3.6 times less training data."
+  gold_location: {paper: dynchunk_v2, page: 17}
+  must_contain: ["3.6", "data efficiency", "isotropic models"]
+
+- id: q17
+  question: "Compare how the Transformer in Attention Is All You Need and H-Net handle long-range sequence dependencies. What are their principal mechanisms and computational advantages?"
+  type: cross_paper
+  answerable: true
+  gold_answer: "The Transformer uses self-attention to directly connect sequence positions, giving O(1) sequential operations and O(1) maximum path length, although its per-layer computational complexity is O(n^2 * d). H-Net learns content-dependent dynamic chunk boundaries, compresses the input into shorter sequences, processes them in a main network, and decompresses the representations. It reduces the sequence length on which the expensive main network operates. References: attention_v7 page 6 and dynchunk_v2 page 4."
+  gold_location: {paper: attention_v7, page: 6}
+  must_contain: ["self-attention", "O(1)", "dynamic chunking", "compressed sequences"]
+
+- id: q18
+  question: "Compare the hierarchical modeling approaches of Moshi and H-Net. How does each architecture organize and process its sequences?"
+  type: cross_paper
+  answerable: true
+  gold_answer: "Moshi uses an RQ-Transformer with a Temporal Transformer to process time steps and a Depth Transformer to process multiple sub-sequences within each time step. This supports hierarchical modeling of parallel audio and text streams. H-Net uses encoders, content-dependent dynamic chunking, a main network, and dechunking decoders to compress and reconstruct raw sequences. Moshi organizes predictions across time and token-stream depth, whereas H-Net organizes information through learned hierarchical sequence compression. References: moshi_v1 page 13 and dynchunk_v2 page 4."
+  gold_location: {paper: moshi_v1, page: 13}
+  must_contain: ["Temporal Transformer", "Depth Transformer", "dynamic chunking", "dechunking"]
+
+- id: q19
+  question: "What p95 first-token latency did The Relay record under its steady stand-in load scenario?"
+  type: unanswerable
+  answerable: false
+  gold_answer: null
+  gold_location: null
+  must_contain: []
+
+- id: q20
+  question: "Which external human-annotated boundary dataset or handcrafted segmentation heuristics are used to supervise H-Net's dynamic chunking mechanism?"
+  type: trap
+  answerable: true
+  gold_answer: "None. H-Net learns its content-dependent and context-dependent chunk boundaries jointly with the rest of the model through end-to-end training, without external boundary supervision or handcrafted heuristics."
+  gold_location: {paper: dynchunk_v2, page: 1}
+  must_contain: ["none", "end-to-end", "without external supervision", "without heuristics"]

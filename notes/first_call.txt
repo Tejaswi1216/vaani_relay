@@ -1,0 +1,23 @@
+HTTP/2 200 
+date: Mon, 09 Nov 2026 12:43:32 GMT
+content-type: application/json
+content-length: 590
+cache-control: private, max-age=0, no-store, no-cache, must-revalidate
+server: cloudflare
+vary: Origin
+x-groq-region: bom
+x-ratelimit-limit-requests: 1000
+x-ratelimit-limit-tokens: 8000
+x-ratelimit-remaining-requests: 999
+x-ratelimit-remaining-tokens: 7932
+x-ratelimit-reset-requests: 1m26.4s
+x-ratelimit-reset-tokens: 510ms
+x-request-id: req_01m705bmktex19a2tem071kjc4
+via: 1.1 google
+cf-cache-status: DYNAMIC
+strict-transport-security: max-age=15552000
+set-cookie: __cf_bm=9sjQWvu3F3QDryF9m9BVI6x03SMqUKMJAUPIaiVk4Kg-1794228212.3185422-1.0.1.1-80YwMcXRRywu1ZnnWrl_DP7NPR8LKwWoSozIEMyjVNJyvpy2hptXwk8_bGwHjN4s7Bzf5QQDRNvK3dn1ejxatkcM4QhMDvN.yfnYxCUS3Ook6K_zZyWGNPygR7LTDwM1; HttpOnly; SameSite=None; Partitioned; Secure; Path=/; Domain=groq.com; Expires=Mon, 09 Nov 2026 13:13:32 GMT
+cf-ray: a57ce756ff2a3cfc-MAA
+alt-svc: h3=":443"; ma=86400
+
+{"id":"chatcmpl-2b33740a-5758-46c0-a78e-ce617549b51e","object":"chat.completion","created":1794228212,"model":"qwen/qwen3.8-27b","choices":[{"index":0,"message":{"role":"assistant","content":"Hello there, how are you?"},"logprobs":null,"finish_reason":"stop"}],"usage":{"queue_time":0.049549702,"prompt_tokens":18,"prompt_time":0.001016656,"completion_tokens":8,"completion_time":0.015427665,"total_tokens":26,"total_time":0.016444321},"usage_breakdown":null,"system_fingerprint":"fp_21e59ac2de","x_groq":{"id":"req_01m705bmktex19a2tem071kjc4","seed":928095022},"service_tier":"on_demand"}

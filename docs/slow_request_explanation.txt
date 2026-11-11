@@ -1,0 +1,24 @@
+================================================================================
+                     LATENCY EXPLANATION: steady_0005_a685cb
+================================================================================
+Scenario:    steady (stand-in)
+Status:      timeout
+Total Time:  16911 ms
+First Token: N/A ms
+Attempts:    2
+--------------------------------------------------------------------------------
+Phase / Component            | Duration (ms)   | Share of Total 
+--------------------------------------------------------------------------------
+1. Waiting (Queue & Backoff) | 32908.0         | 194.6         %
+   - Admission Queue Wait     | 908.0           | 5.4           %
+   - Retry Backoff Sleep      | 32000.0         | 189.2         %
+2. Working (Model Calls)     | 1.7             | 0.0           %
+3. Retrying (Failed attempts) | 32000.8         | 189.2         %
+--------------------------------------------------------------------------------
+
+=> PRIMARY DELAY: BEFORE first token (No token ever delivered due to status: timeout).
+   Explanation: The request encountered a TPM 429 due to high prompt token volume (~2,400 tokens) 
+   exhausting the 8,000 TPM bucket. The server returned Retry-After: 16s. Because the backoff sleep 
+   exceeded the request patience window (PATIENCE_TTFT_MS = 8000 ms), the request timed out 
+   before the first token could be produced.
+================================================================================

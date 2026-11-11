@@ -1,0 +1,24 @@
+### max_tokens=50
+x-ratelimit-limit-requests: 1000
+x-ratelimit-limit-tokens: 8000
+x-ratelimit-remaining-requests: 998
+x-ratelimit-remaining-tokens: 7974
+x-ratelimit-reset-requests: 2m52.8s
+x-ratelimit-reset-tokens: 194ms
+{"prompt_tokens":18,"completion_tokens":8,"total_tokens":26}
+### max_tokens=500
+x-ratelimit-limit-requests: 1000
+x-ratelimit-limit-tokens: 8000
+x-ratelimit-remaining-requests: 997
+x-ratelimit-remaining-tokens: 7907
+x-ratelimit-reset-requests: 4m19.2s
+x-ratelimit-reset-tokens: 697ms
+{"prompt_tokens":18,"completion_tokens":7,"total_tokens":25}
+### max_tokens=2000
+x-ratelimit-limit-requests: 1000
+x-ratelimit-limit-tokens: 8000
+x-ratelimit-remaining-requests: 996
+x-ratelimit-remaining-tokens: 7975
+x-ratelimit-reset-requests: 5m45.6s
+x-ratelimit-reset-tokens: 187ms
+{"prompt_tokens":18,"completion_tokens":7,"total_tokens":25}

@@ -1,0 +1,10 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+data/papers/*.pdf
+logs/
+.agents/
+*.Zone.Identifier
+src/
+submission/
